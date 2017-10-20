@@ -1,7 +1,9 @@
-package com.cluturecam.culturecam;
+package com.cluturecam.culturecam.gui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.cluturecam.culturecam.R;
 
 public class MainActivity extends AppCompatActivity {
 
