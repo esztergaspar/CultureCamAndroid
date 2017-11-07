@@ -10,7 +10,7 @@ import com.cluturecam.culturecam.R;
 public class MainActivity extends AppCompatActivity {
 
     Button b_takepic;
-
+    //das ist ein Kommentar.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
