@@ -9,15 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-        <activity android:name=".gui.MainActivity">
+        <activity android:name=".app.gui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".gui.LoadingActivity" />
-        <activity android:name=".gui.ImageActivity"></activity>
+        <activity android:name=".app.gui.LoadViewActivity" />
+        <activity android:name=".app.gui.ResultViewActivity"></activity>
     </application>
 
 </manifest>

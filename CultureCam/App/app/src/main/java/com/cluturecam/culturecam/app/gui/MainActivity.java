@@ -1,4 +1,4 @@
-package com.cluturecam.culturecam.gui;
+package com.cluturecam.culturecam.app.gui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
