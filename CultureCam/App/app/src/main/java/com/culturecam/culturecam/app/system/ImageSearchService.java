@@ -1,10 +1,10 @@
-package com.cluturecam.culturecam.app.system;
+package com.culturecam.culturecam.app.system;
 
 
 import android.graphics.Bitmap;
 
-import com.cluturecam.culturecam.entities.ImageDTO;
-import com.cluturecam.culturecam.imageSearchSystem.SearchResultObserver;
+import com.culturecam.culturecam.entities.ImageDTO;
+import com.culturecam.culturecam.imageSearchSystem.SearchResultObserver;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.cluturecam.culturecam.imageSearchSystem;
+package com.culturecam.culturecam.imageSearchSystem;
 
 
 import android.graphics.Bitmap;

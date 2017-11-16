@@ -1,4 +1,4 @@
-package com.cluturecam.culturecam.socialServices;
+package com.culturecam.culturecam.socialServices;
 
 
 public class TwitterPostService implements PostService {

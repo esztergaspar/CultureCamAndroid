@@ -1,4 +1,4 @@
-package com.cluturecam.culturecam.imageDeliverySystem;
+package com.culturecam.culturecam.imageDeliverySystem;
 
 
 import android.content.Context;
@@ -8,7 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
-import com.cluturecam.culturecam.R;
+import com.culturecam.culturecam.R;
 
 public class PhotoLibraryService implements PictureRequest {
 

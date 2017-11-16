@@ -1,4 +1,4 @@
-package com.cluturecam.culturecam.entities;
+package com.culturecam.culturecam.entities;
 
 
 import android.graphics.Bitmap;

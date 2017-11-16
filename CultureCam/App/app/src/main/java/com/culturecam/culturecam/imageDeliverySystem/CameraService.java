@@ -1,4 +1,4 @@
-package com.cluturecam.culturecam.imageDeliverySystem;
+package com.culturecam.culturecam.imageDeliverySystem;
 
 
 import android.content.Context;

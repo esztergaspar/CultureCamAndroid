@@ -1,7 +1,7 @@
-package com.cluturecam.culturecam.imageSearchSystem;
+package com.culturecam.culturecam.imageSearchSystem;
 
 
-import com.cluturecam.culturecam.entities.ImageDTO;
+import com.culturecam.culturecam.entities.ImageDTO;
 
 import java.util.List;
 

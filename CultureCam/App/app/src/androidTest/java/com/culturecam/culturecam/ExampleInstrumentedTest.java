@@ -1,4 +1,4 @@
-package com.cluturecam.culturecam;
+package com.culturecam.culturecam;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

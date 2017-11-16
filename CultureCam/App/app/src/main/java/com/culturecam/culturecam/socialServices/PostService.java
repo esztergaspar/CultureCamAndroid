@@ -1,4 +1,4 @@
-package com.cluturecam.culturecam.socialServices;
+package com.culturecam.culturecam.socialServices;
 
 
 public interface PostService {

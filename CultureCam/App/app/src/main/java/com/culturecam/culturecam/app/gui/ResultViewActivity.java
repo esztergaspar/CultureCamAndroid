@@ -1,15 +1,15 @@
-package com.cluturecam.culturecam.app.gui;
+package com.culturecam.culturecam.app.gui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.cluturecam.culturecam.R;
+import com.culturecam.culturecam.R;
 
-public class LoadViewActivity extends AppCompatActivity {
+public class ResultViewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_loadview);
+        setContentView(R.layout.activity_result);
     }
 }

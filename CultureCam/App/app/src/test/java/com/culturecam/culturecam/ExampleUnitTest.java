@@ -1,4 +1,4 @@
-package com.cluturecam.culturecam;
+package com.culturecam.culturecam;
 
 import org.junit.Test;
 
