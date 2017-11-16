@@ -9,17 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-        <activity android:name="com.culturecam.culturecam.app.gui.MainActivity">
+        <activity android:name=".app.gui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.culturecam.culturecam.app.gui.LoadViewActivity" android:noHistory="true" />
-        <!-- android:noHistory="true": damit die LoadViewActivity nicht in den Back Stack kommt-->
+        <activity
+            android:name=".app.gui.LoadViewActivity"
+            android:noHistory="true" />
+        <!-- android:noHistory="true": damit die LoadViewActivity nicht in den Back Stack kommt -->
 
-        <activity android:name="com.culturecam.culturecam.app.gui.ResultViewActivity"></activity>
+        <activity android:name=".app.gui.ResultViewActivity" />
+        <activity android:name=".app.gui.activity_chooseimage"></activity>
     </application>
 
 </manifest>
