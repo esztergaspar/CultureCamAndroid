@@ -18,7 +18,7 @@ public class PhotoLibraryService implements PictureRequest {
     public Bitmap requestPicture(Context context) {
         Log.v(TAG,"Request Picture called");
         Log.d(TAG,"Getting image from library");
-        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.FullSizeRender);
+        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.full_size_render);
         Log.i(TAG, "New image was requested");
         Log.v(TAG, "Leaving this method");
         return ((BitmapDrawable)drawable).getBitmap();

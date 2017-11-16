@@ -10,6 +10,6 @@ public class LoadViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_loadView);
+        setContentView(R.layout.activity_loadview);
     }
 }
