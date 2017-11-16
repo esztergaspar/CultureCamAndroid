@@ -16,7 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.culturecam.culturecam.app.gui.LoadViewActivity" />
+        <activity android:name="com.culturecam.culturecam.app.gui.LoadViewActivity" android:noHistory="true" />
+        <!-- android:noHistory="true": damit die LoadViewActivity nicht in den Back Stack kommt-->
+
         <activity android:name="com.culturecam.culturecam.app.gui.ResultViewActivity"></activity>
     </application>
 
