@@ -29,7 +29,7 @@ public class activity_chooseimage extends AppCompatActivity {
     public void onClickedMediaLibraryButton(View view){
         Log.v(TAG, "Button Media Library clicked");
 
-        Bitmap image = ImageDeliveryController.getInstance().pictureRequestFromMediaLibrary();
+        //Bitmap image = ImageDeliveryController.getInstance().pictureRequestFromMediaLibrary();
 
     }
 
