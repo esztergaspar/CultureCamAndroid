@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.culturecam.culturecam.R;
 import com.culturecam.culturecam.app.system.ImageDeliveryController;
+import com.culturecam.culturecam.app.system.ImageSearchService;
 
 import android.util.Log;
 
@@ -29,7 +30,8 @@ public class activity_chooseimage extends AppCompatActivity {
     public void onClickedMediaLibraryButton(View view){
         Log.v(TAG, "Button Media Library clicked");
 
-        //Bitmap image = ImageDeliveryController.getInstance().pictureRequestFromMediaLibrary();
+        Bitmap image = ImageDeliveryController.getInstance().pictureRequestFromMediaLibrary();
+        ImageSearchService.getInstance().searchImage(image);
 
     }
 
