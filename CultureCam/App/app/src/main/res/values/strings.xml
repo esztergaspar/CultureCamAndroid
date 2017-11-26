@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CultureCam</string>
+    <string name="img_content">Image Content</string>
 </resources>

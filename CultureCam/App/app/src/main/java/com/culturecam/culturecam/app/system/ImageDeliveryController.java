@@ -31,9 +31,8 @@ public class ImageDeliveryController {
      return imageDeliveryController;
     }
 
-    public void pictureRequestFromMediaLibrary(){
-        //Bitmap image = mediaLibraryService.requestPicture(context);
-
+    public Bitmap pictureRequestFromMediaLibrary(){
+        return mediaLibraryService.requestPicture(context);
     }
 
     public void pictureRequestFromCamera(){
