@@ -15,6 +15,7 @@ public class activity_chooseimage extends AppCompatActivity {
 
     private static final String TAG = "activity_chooseimage";
     private ImageDeliveryController imageDeliveryController;
+    private ImageSearchService imageSearchService;
 
 
     @Override
@@ -24,7 +25,8 @@ public class activity_chooseimage extends AppCompatActivity {
         setContentView(R.layout.activity_chooseimage);
 
         //ueber den Kontext der App kann man auf die Ressourcen zugreifen
-        ImageDeliveryController.getInstance().setContext(getApplicationContext());
+        ImageDeliveryController.getInstance().setContext(this);
+        ImageSearchService.getInstance().setContext(this);
     }
 
     public void onClickedMediaLibraryButton(View view){

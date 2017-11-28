@@ -20,7 +20,9 @@ public class ResultListAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private List<ImageDTO> imageDTOS;
 
-    public ResultListAdapter(Context context) {
+    public ResultListAdapter(Context context, List<ImageDTO> imageDTOS) {
+        this.context = context;
+        this.imageDTOS = imageDTOS;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 

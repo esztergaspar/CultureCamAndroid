@@ -22,8 +22,10 @@ import com.culturecam.culturecam.imageSearchSystem.SearchEngine;
 import com.culturecam.culturecam.imageSearchSystem.SearchResultObserver;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ImageSearchService implements SearchResultObserver {
     private static final String TAG = "ImageSearchService";
@@ -36,6 +38,7 @@ public class ImageSearchService implements SearchResultObserver {
     private EnumMap<SearchEngines, SearchEngine> seList = new EnumMap<SearchEngines, SearchEngine>(SearchEngines.class);
 
     private ImageSearchService(){
+        searchResult = new CopyOnWriteArrayList<>();
         seList.put(SearchEngines.IR_SEARCH_ENGINE, new IRSearchEngine());
         for(SearchEngine se: seList.values()) {
             se.addSearchResultObserver(this);
@@ -73,16 +76,19 @@ public class ImageSearchService implements SearchResultObserver {
         searchResults.add(image1);
         searchResults.add(image1);
         searchResults.add(image1);
+
+        this.searchResult = Collections.synchronizedList(searchResults);
         Log.d(TAG,"open result view");
         Intent intent = new Intent(context, ResultViewActivity.class);
-        intent.putParcelableArrayListExtra(EXTRA_RESULT_LIST, new ArrayList<Parcelable>(searchResults));
+        //this will not work since the image is too big
+        //intent.putParcelableArrayListExtra(EXTRA_RESULT_LIST, new ArrayList<Parcelable>(searchResults));
         context.startActivity(intent);
     }
 
     public void searchImage (Bitmap image) {
         Log.d(TAG,"open load view");
         Intent intent = new Intent(context, LoadViewActivity.class);
-        intent.putExtra(EXTRA_IMAGE, image);
+        //intent.putExtra(EXTRA_IMAGE, image); //this will not work since the image is too big
         context.startActivity(intent);
         Log.d(TAG,"search for Image");
         seList.get(currentSearchEngine).searchImage(image);

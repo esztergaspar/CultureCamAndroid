@@ -20,8 +20,9 @@ public class LoadViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loadview);
         Intent intent = getIntent();
-        Bitmap image = (Bitmap) intent.getParcelableExtra(ImageSearchService.EXTRA_IMAGE);
-        imageView.setImageBitmap(image);
+        // this will not work since the image is too big...pass path instead
+        //Bitmap image = (Bitmap) intent.getParcelableExtra(ImageSearchService.EXTRA_IMAGE);
+        //imageView.setImageBitmap(image);
     }
 
 

@@ -24,11 +24,11 @@ public class ResultViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
-        Intent intent = getIntent();
-        List<ImageDTO> imageList = intent.getParcelableArrayListExtra(EXTRA_RESULT_LIST);
+        //Intent intent = getIntent();
+        List<ImageDTO> imageList = ImageSearchService.getInstance().getSearchResult();
 
         ResultListAdapter adapter = new
-                ResultListAdapter(ResultViewActivity.this);
+                ResultListAdapter(this, imageList);
         ListView list=(ListView)findViewById(R.id.listView);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {

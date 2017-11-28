@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.culturecam.culturecam.R;
+import com.culturecam.culturecam.app.system.ImageSearchService;
+import com.culturecam.culturecam.entities.SearchEngines;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         Log.v(TAG, "onCreate called");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ImageSearchService.getInstance().setCurrentSearchEngine(SearchEngines.IR_SEARCH_ENGINE);
     }
 
     public void onClick(View view){

@@ -6,13 +6,15 @@ import android.util.Log;
 import com.culturecam.culturecam.entities.ImageDTO;
 
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 
 public abstract class SearchEngine implements ImageSearchEngine {
     private static final String TAG = "SearchEngine";
 
-    private ConcurrentSkipListSet<SearchResultObserver> observers = new ConcurrentSkipListSet<>();
+    private Set<SearchResultObserver> observers = new CopyOnWriteArraySet<>();
 
     @Override
     public void addSearchResultObserver(SearchResultObserver observer) {
