@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.culturecam.culturecam">
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET"> </uses-permission>
+
+    <!-- nur fuer Android store. damit kann man angeben was die app nutzt. nicht required.
+    damit geraete das auch downloaden koennen die keine kamera haben-->
+    <uses-feature android:name="android.hardware.camera"
+        android:required="false" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
