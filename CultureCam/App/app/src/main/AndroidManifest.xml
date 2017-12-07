@@ -3,6 +3,10 @@
     package="com.culturecam.culturecam">
     <uses-permission android:name="android.permission.INTERNET"> </uses-permission>
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+
+
     <!-- nur fuer Android store. damit kann man angeben was die app nutzt. nicht required.
     damit geraete das auch downloaden koennen die keine kamera haben-->
     <uses-feature android:name="android.hardware.camera"
@@ -28,7 +32,18 @@
         <!-- android:noHistory="true": damit die LoadViewActivity nicht in den Back Stack kommt -->
 
         <activity android:name=".app.gui.ResultViewActivity" />
-        <activity android:name=".app.gui.activity_chooseimage"></activity>
+        <activity android:name=".app.gui.activity_chooseimage" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.cluturecam.culturecam.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
     </application>
 
 </manifest>
