@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">CultureCam</string>
     <string name="img_content">Image Content</string>
+    <string name="server_url">http://www.culturecam.eu</string>
+    <string name="image_similarity_engine_url">http://image-similarity.ait.ac.at/culturecam-web/searchByUrl.json</string>
 </resources>
