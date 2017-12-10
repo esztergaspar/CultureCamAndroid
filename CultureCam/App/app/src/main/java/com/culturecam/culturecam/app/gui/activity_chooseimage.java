@@ -56,6 +56,8 @@ public class activity_chooseimage extends AppCompatActivity {
             intent.setType("image/*");
             startActivityForResult(Intent.createChooser(intent,"Select Picture"), SELECT_PICTURE);
         //}
+
+
     }
 
     public void onClickedCameraButton(View view){
@@ -100,6 +102,25 @@ public class activity_chooseimage extends AppCompatActivity {
             intent.putExtra(IMAGE_URI,mCurrentPhotoPath);
             startActivity(intent);
         }
+
+        /* IMAGE FROM MEDIA LIBRARY
+                /*
+        Uri imageURI = intent.getParcelableExtra(IMAGE_URI);
+
+
+
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+        android.database.Cursor cursor = getContentResolver().query(imageURI, filePathColumn, null, null, null);
+        if (cursor == null)
+            return;
+
+        cursor.moveToFirst();
+
+        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+        String filePath = cursor.getString(columnIndex);
+        cursor.close();
+
+         */
     }
 
     private File createImageFile() throws IOException {
