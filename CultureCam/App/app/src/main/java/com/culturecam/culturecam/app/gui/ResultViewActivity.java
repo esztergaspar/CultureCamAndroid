@@ -12,26 +12,38 @@ import android.widget.ListView;
 import com.culturecam.culturecam.R;
 import com.culturecam.culturecam.app.system.ImageSearchService;
 import com.culturecam.culturecam.entities.ImageDTO;
+import com.culturecam.culturecam.entities.SearchResult;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static com.culturecam.culturecam.app.system.ImageSearchService.EXTRA_RESULT_LIST;
 
 public class ResultViewActivity extends AppCompatActivity {
+    private SearchResult searchResult;
+
+    private int start;
+
+    @BindView(R.id.listView)
+    public ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
-        //Intent intent = getIntent();
-        List<ImageDTO> imageList = ImageSearchService.getInstance().getSearchResult();
+        ButterKnife.bind(this);
+
+        Intent intent = getIntent();
+        searchResult = (SearchResult) intent.getSerializableExtra(LoadViewActivity.RESULT);
 
         ResultListAdapter adapter = new
-                ResultListAdapter(this, imageList);
-        ListView list=(ListView)findViewById(R.id.listView);
-        list.setAdapter(adapter);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                ResultListAdapter(this, searchResult.getItems());
+
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
@@ -40,6 +52,5 @@ public class ResultViewActivity extends AppCompatActivity {
 
             }
         });
-
     }
 }
