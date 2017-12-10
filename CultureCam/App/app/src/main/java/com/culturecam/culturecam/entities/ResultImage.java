@@ -1,15 +1,22 @@
-package com.example;
+package com.culturecam.culturecam.entities;
 
 
-public class ResultImage {
+import com.google.gson.annotations.Expose;
 
+import java.io.Serializable;
 
+public class ResultImage implements Serializable {
+
+    @Expose
     private String resourceId;
 
+    @Expose
     private String thmbUrl;
 
+    @Expose
     private String cachedThmbUrl;
 
+    @Expose
     private String score;
 
     public String getResourceId() {

@@ -1,22 +1,29 @@
 package com.culturecam.culturecam.entities;
 
 
-import com.example.ResultImage;
+import com.google.gson.annotations.Expose;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class SearchResult {
+public class SearchResult implements Serializable {
 
+    @Expose
     private String apikey;
 
+    @Expose
     private String action;
 
+    @Expose
     private Boolean success;
 
+    @Expose
     private Integer itemsCount;
 
+    @Expose
     private Integer totalResults;
 
+    @Expose
     private List<ResultImage> items = null;
 
     public String getApikey() {
