@@ -1,13 +1,20 @@
 package com.culturecam.culturecam.app.gui;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -29,6 +36,7 @@ import com.culturecam.culturecam.rest.CultureCamAPI;
 import com.culturecam.culturecam.rest.ImageSimilarityAPI;
 import com.culturecam.culturecam.util.Constants;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -46,9 +54,12 @@ import static com.culturecam.culturecam.util.Constants.IMAGE_SIZE;
 public class LoadViewActivity extends AppCompatActivity {
     private static final String TAG = "LoadViewActivity";
     public static final String RESULT = "result";
+    public static final String IMAGE_ID = "image_id";
 
     private static CultureCamAPI cultureCamApi;
     private static ImageSimilarityAPI searchApi;
+    private static Target resizeTarget;
+    private static String imageId;
 
     @BindView(R.id.iv_loadpreview)
     public ImageView imageView;
@@ -58,6 +69,9 @@ public class LoadViewActivity extends AppCompatActivity {
 
     @BindView(R.id.pb_searchProgress)
     public ProgressBar progressBar;
+
+    @BindView(R.id.pb_resize)
+    public ProgressBar resizeBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +85,7 @@ public class LoadViewActivity extends AppCompatActivity {
         OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
         httpClientBuilder.addInterceptor(logging);
         OkHttpClient httpClient = httpClientBuilder.build();
-        cultureCamApi = new Retrofit.Builder().baseUrl(getString(R.string.server_url))
+        cultureCamApi = new Retrofit.Builder().baseUrl(getString(R.string.culturecam_server_url))
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient).build().create(CultureCamAPI.class);
 
@@ -79,23 +93,54 @@ public class LoadViewActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient).build().create(ImageSimilarityAPI.class);
 
+        //--- PICASSO ------------------------------------------------------------------
+        Picasso picasso = new Picasso.Builder(this)
+                .loggingEnabled(Constants.LOG_PICASSO)
+                .listener(new Picasso.Listener() {
+                    @Override
+                    public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
+                        Log.e("PICASSO", "Image load failed (" + uri + "): " +exception.getMessage(),exception);
+                    }
+                })
+                .build();
+        try {
+            Picasso.setSingletonInstance(picasso);
+        } catch (IllegalStateException e) {
+            Log.i(TAG, "Picasso was already initialized");
+        }
 
+        textView.setText("Resizing image...");
+        progressBar.setProgress(0);
         Intent intent = getIntent();
-        String imagePath = intent.getStringExtra(IMAGE_URI);
+        Uri imageUri = intent.getParcelableExtra(IMAGE_URI);
+        //File file = new File(imagePath);
+        resizeTarget = new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                Log.d(TAG, "Image resized to " + bitmap.getWidth() + "x" + bitmap.getHeight());
+                textView.setText("Uploading Image to Server...");
+                progressBar.setProgress(10);
+                resizeBar.setVisibility(View.INVISIBLE);
+                imageView.setImageBitmap(bitmap);
+                uploadImage(bitmap);
+            }
 
-        Picasso.with(this).load(imagePath).resize(IMAGE_SIZE,IMAGE_SIZE).centerInside().into(imageView);
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+                failure("Loading bitmap failed",null);
+            }
 
-        textView.setText("Uploading Image to Server...");
-        progressBar.setProgress(10);
-        Bitmap image = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-        uploadImage(image);
-
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+                Log.d(TAG, "Prepared load");
+            }
+        };
+        Picasso.with(this).load(imageUri).resize(IMAGE_SIZE,IMAGE_SIZE).onlyScaleDown().centerInside().into(resizeTarget);
     }
 
     private void uploadImage(Bitmap image) {
         String imageBase64 = encodeImageToString(image);
         String serverString = "data:image/jpeg;base64," + imageBase64;
-        Log.d(TAG, "Image String; \n" + imageBase64);
 
         Long millis = Calendar.getInstance().getTimeInMillis();
         cultureCamApi.postImage(serverString, String.valueOf(millis)).enqueue(new Callback<ResponseBody>() {
@@ -107,17 +152,17 @@ public class LoadViewActivity extends AppCompatActivity {
                 try {
                     String imageIdentifier = response.body().string();
                     Log.d(TAG, "Image Identifier: " + imageIdentifier);
+                    imageId = imageIdentifier;
                     searchImages(imageIdentifier);
 
                 } catch (IOException e) {
-                    Log.e(TAG, "Error getting response body", e);
-                    return;
+                    failure("Error getting response body", e);
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e(TAG, "" + "Upload failed", t);
+                failure("Upload failed", t);
             }
         });
     }
@@ -134,7 +179,7 @@ public class LoadViewActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<SearchResult> call, Response<SearchResult> response) {
                 if (!response.isSuccessful()) {
-                    Log.e(TAG, "Searching images failed: " + response.toString());
+                    failure("Searching images failed: " + response.toString(),null);
                     return;
                 }
                 SearchResult result = response.body();
@@ -146,7 +191,7 @@ public class LoadViewActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<SearchResult> call, Throwable t) {
-                Log.e(TAG, "Searching images failed", t);
+                failure("Searching images failed", t);
             }
         });
     }
@@ -155,6 +200,7 @@ public class LoadViewActivity extends AppCompatActivity {
         Log.d(TAG,"start load view");
         Intent intent = new Intent(this, ResultViewActivity.class);
         intent.putExtra(RESULT,result);
+        intent.putExtra(IMAGE_ID,imageId);
         startActivity(intent);
     }
 
@@ -167,5 +213,24 @@ public class LoadViewActivity extends AppCompatActivity {
         } else {
             return null;
         }
+    }
+
+    private void failure(String message, Throwable exception) {
+        Log.e(TAG, message, exception);
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setMessage(message);
+        builder1.setCancelable(false);
+
+        builder1.setPositiveButton(
+                "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        finish();
+                    }
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
     }
 }

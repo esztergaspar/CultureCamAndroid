@@ -1,11 +1,13 @@
 package com.culturecam.culturecam.app.gui;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,31 +18,44 @@ import com.culturecam.culturecam.app.system.ImageDeliveryController;
 import com.culturecam.culturecam.app.system.ImageSearchService;
 
 import android.util.Log;
+import android.widget.Button;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /*
-* https://developer.android.com/training/camera/photobasics.html#TaskCaptureIntents*/
+* https://developer.android.com/training/camera/photobasics.html#TaskCaptureIntents
+*
+* Code for Permission granting from official Android Tutorial:
+* https://developer.android.com/training/permissions/requesting.html
+* */
 
 public class activity_chooseimage extends AppCompatActivity {
 
     private static final String TAG = "activity_chooseimage";
     private ImageDeliveryController imageDeliveryController;
     private ImageSearchService imageSearchService;
-    private String mCurrentPhotoPath;
     private Uri photoURI;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
-    private static final int SELECT_PICTURE = 2;
+    private static final int REQUEST_SELECT_IMAGE = 2;
+    private static final int REQUEST_READ_PERMISSION = 3;
     public static final String IMAGE_URI = "image_uri";
+
+    @BindView(R.id.b_mediaLibrary)
+    public Button mediaButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.v(TAG, "Activity onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chooseimage);
+        ButterKnife.bind(this);
+        mediaButton.setEnabled(true);
 
         //ueber den Kontext der App kann man auf die Ressourcen zugreifen
         ImageDeliveryController.getInstance().setContext(this);
@@ -50,14 +65,62 @@ public class activity_chooseimage extends AppCompatActivity {
     public void onClickedMediaLibraryButton(View view){
         Log.v(TAG, "Button Media Library clicked");
 
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-       // if (intent.resolveActivity(getPackageManager()) != null) {
-            Log.d(TAG, "start image select");
-            intent.setType("image/*");
-            startActivityForResult(Intent.createChooser(intent,"Select Picture"), SELECT_PICTURE);
-        //}
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            Log.d(TAG, "Activity has no permission to read external File System");
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                Log.w(TAG, "TODO: show permission explanation");
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                requestPermissions();
+            } else {
+                // No explanation needed, we can request the permission.
+                requestPermissions();
+            }
+        } else {
+            Log.i(TAG, "Read file Permission is granted");
+            getImageFromMediaLibrary();
+        }
+    }
 
+    private void requestPermissions() {
+        Log.d(TAG, "Requesting read file permissions");
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                REQUEST_READ_PERMISSION);
+    }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_READ_PERMISSION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay!
+                    Log.i(TAG, "Read file Permission granted");
+                    getImageFromMediaLibrary();
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    Log.i(TAG,"File permissions denied - disable Media Library Button");
+                    mediaButton.setEnabled(false);
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 
     public void onClickedCameraButton(View view){
@@ -94,33 +157,32 @@ public class activity_chooseimage extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(TAG, "in onActivityResult method");
+        if(resultCode != RESULT_OK) {
+            Log.w(TAG, "Got invalid result");
+            return;
+        }
 
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Log.d(TAG, "received image");
+        if (requestCode == REQUEST_IMAGE_CAPTURE) {
+            Log.d(TAG, "received image from camera");
 
             Intent intent = new Intent(this, LoadViewActivity.class);
-            intent.putExtra(IMAGE_URI,mCurrentPhotoPath);
+            intent.putExtra(IMAGE_URI,photoURI);
             startActivity(intent);
         }
 
-        /* IMAGE FROM MEDIA LIBRARY
-                /*
-        Uri imageURI = intent.getParcelableExtra(IMAGE_URI);
+        if (requestCode == REQUEST_SELECT_IMAGE) {
+            Log.d(TAG, "received image from file system");
 
+            Intent intent = new Intent(this, LoadViewActivity.class);
+            intent.putExtra(IMAGE_URI,data.getData());
+            startActivity(intent);
+        }
+    }
 
-
-        String[] filePathColumn = {MediaStore.Images.Media.DATA};
-        android.database.Cursor cursor = getContentResolver().query(imageURI, filePathColumn, null, null, null);
-        if (cursor == null)
-            return;
-
-        cursor.moveToFirst();
-
-        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-        String filePath = cursor.getString(columnIndex);
-        cursor.close();
-
-         */
+    private void getImageFromMediaLibrary() {
+        Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(pickPhoto , REQUEST_SELECT_IMAGE);
     }
 
     private File createImageFile() throws IOException {
@@ -134,9 +196,6 @@ public class activity_chooseimage extends AppCompatActivity {
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = image.getAbsolutePath();
         return image;
     }
 }
