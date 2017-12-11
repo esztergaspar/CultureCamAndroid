@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">CultureCam</string>
+    <string name="provider">Provider:</string>
+    <string name="rights">Rights:</string>
+    <string name="shareLinkButton">URL</string>
+    <string name="selectContentLabel">Select Source:</string>
     <string name="img_content">Image Content</string>
-    <string name="server_url">http://www.culturecam.eu</string>
+    <string name="culturecam_server_url">http://www.culturecam.eu</string>
     <string name="image_similarity_engine_url">http://image-similarity.ait.ac.at</string>
     <string name="image_similarity_image_url">http://image-similarity.ait.ac.at/culturecam-web/datasets/culturecam/image</string>
     <string name="query_url">http://culturecam.eu/images/</string>
