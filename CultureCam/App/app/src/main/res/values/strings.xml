@@ -2,7 +2,7 @@
     <string name="app_name">CultureCam</string>
     <string name="provider">Provider:</string>
     <string name="rights">Rights:</string>
-    <string name="shareLinkButton">URL</string>
+    <string name="shareLinkButton">Share</string>
     <string name="dropboxButton">Dropbox</string>
     <string name="selectContentLabel">Select Source:</string>
     <string name="img_content">Image Content</string>
