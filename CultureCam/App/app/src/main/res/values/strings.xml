@@ -3,6 +3,7 @@
     <string name="provider">Provider:</string>
     <string name="rights">Rights:</string>
     <string name="shareLinkButton">URL</string>
+    <string name="dropboxButton">Dropbox</string>
     <string name="selectContentLabel">Select Source:</string>
     <string name="img_content">Image Content</string>
     <string name="culturecam_server_url">http://www.culturecam.eu</string>

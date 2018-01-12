@@ -1,6 +1,7 @@
 package com.culturecam.culturecam.app.gui;
 
 import android.Manifest;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -9,6 +10,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -154,6 +156,27 @@ public class activity_chooseimage extends AppCompatActivity {
         }
     }
 
+    public void onClickedDropboxButton(View view){
+        Log.v(TAG, "Button Dropbox clicked");
+
+        Intent pickPhoto = new Intent(Intent.ACTION_GET_CONTENT);
+        pickPhoto.setType("image/*");
+        pickPhoto.setPackage("com.dropbox.android");
+        try {
+            startActivityForResult(pickPhoto , REQUEST_SELECT_IMAGE);
+        }catch(ActivityNotFoundException e){
+            Log.w(TAG, "Dropbox not installed");
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Dropbox not found");
+            builder.setMessage("Please install the Dropbox App");
+            builder.show();
+        }
+
+
+
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(TAG, "in onActivityResult method");
@@ -182,7 +205,7 @@ public class activity_chooseimage extends AppCompatActivity {
     private void getImageFromMediaLibrary() {
         Intent pickPhoto = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(pickPhoto , REQUEST_SELECT_IMAGE);
+        startActivityForResult(Intent.createChooser(pickPhoto, "Select Image Source"),REQUEST_SELECT_IMAGE);
     }
 
     private File createImageFile() throws IOException {
