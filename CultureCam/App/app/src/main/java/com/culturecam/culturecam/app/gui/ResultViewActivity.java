@@ -57,7 +57,7 @@ public class ResultViewActivity extends AppCompatActivity {
         OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
         httpClientBuilder.addInterceptor(logging);
         OkHttpClient httpClient = httpClientBuilder.build();
-        cultureCamApi = new Retrofit.Builder().baseUrl(getString(R.string.culturecam_server_url))
+        cultureCamApi = new Retrofit.Builder().baseUrl("http://www.culturecam.eu")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient).build().create(CultureCamAPI.class);
 

@@ -45,11 +45,10 @@ public class ResultListAdapter extends BaseAdapter {
     }
 
 
-
     public View getView(final int position, View convertView, ViewGroup parent) {
         rowView = convertView;
         if (rowView == null) {
-            rowView= inflater.inflate(R.layout.list_element, null, true);
+            rowView = inflater.inflate(R.layout.list_element, null, true);
         }
         // make shure that details are not visible on recycling views
         View details = rowView.findViewById(R.id.l_detailview);
@@ -59,7 +58,7 @@ public class ResultListAdapter extends BaseAdapter {
         Picasso.with(context).setLoggingEnabled(true);
         Picasso.with(context).load(url)
                 //.placeholder(R.drawable.full_size_render)
-                .resize(parent.getWidth(),parent.getHeight())
+                .resize(parent.getWidth(), parent.getHeight())
                 .centerInside()
                 .into(imageView);
 
@@ -69,9 +68,9 @@ public class ResultListAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("text/plain");
-               // i.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
+                // i.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
                 i.putExtra(Intent.EXTRA_TEXT,
-                        context.getString(R.string.culturecam_server_url)
+                        "http://www.culturecam.eu"
                                 + "/?shared=" + imageID.split("\\.")[0]);
                 context.startActivity(Intent.createChooser(i, "Share Search"));
             }
