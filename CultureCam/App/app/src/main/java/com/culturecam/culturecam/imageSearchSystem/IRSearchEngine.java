@@ -77,7 +77,7 @@ public class IRSearchEngine implements ImageSearchEngine {
                 callback.onFailure(t);
             }
         };
-        Call<IRSearchResult> call = searchApi.searchImage(
+        Call<IRSearchResult> call = searchApi.cultureCamSearchImage(
                 "http://culturecam.eu/images/" + imageIdentifier, Constants.START,
                 Constants.ROWS, Constants.WSKEY, Constants.PROFILE);
         call.enqueue(irCallback);
