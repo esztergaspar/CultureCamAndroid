@@ -31,6 +31,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import com.culturecam.culturecam.R;
+import com.culturecam.culturecam.app.system.ImageSearchService;
 import com.culturecam.culturecam.entities.SearchResult;
 import com.culturecam.culturecam.rest.CultureCamAPI;
 import com.culturecam.culturecam.rest.ImageSimilarityAPI;
@@ -56,8 +57,6 @@ public class LoadViewActivity extends AppCompatActivity {
     public static final String RESULT = "result";
     public static final String IMAGE_ID = "image_id";
 
-    private static CultureCamAPI cultureCamApi;
-    private static ImageSimilarityAPI searchApi;
     private static Target resizeTarget;
     private static String imageId;
 
@@ -80,26 +79,13 @@ public class LoadViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_loadview);
         ButterKnife.bind(this);
 
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
-        httpClientBuilder.addInterceptor(logging);
-        OkHttpClient httpClient = httpClientBuilder.build();
-        cultureCamApi = new Retrofit.Builder().baseUrl(getString(R.string.culturecam_server_url))
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(httpClient).build().create(CultureCamAPI.class);
-
-        searchApi = new Retrofit.Builder().baseUrl(getString(R.string.image_similarity_engine_url))
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(httpClient).build().create(ImageSimilarityAPI.class);
-
         //--- PICASSO ------------------------------------------------------------------
         Picasso picasso = new Picasso.Builder(this)
                 .loggingEnabled(Constants.LOG_PICASSO)
                 .listener(new Picasso.Listener() {
                     @Override
                     public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
-                        Log.e("PICASSO", "Image load failed (" + uri + "): " +exception.getMessage(),exception);
+                        Log.e("PICASSO", "Image load failed (" + uri + "): " + exception.getMessage(), exception);
                     }
                 })
                 .build();
@@ -127,7 +113,7 @@ public class LoadViewActivity extends AppCompatActivity {
 
             @Override
             public void onBitmapFailed(Drawable errorDrawable) {
-                failure("Loading bitmap failed",null);
+                failure("Loading bitmap failed", null);
             }
 
             @Override
@@ -135,15 +121,11 @@ public class LoadViewActivity extends AppCompatActivity {
                 Log.d(TAG, "Prepared load");
             }
         };
-        Picasso.with(this).load(imageUri).resize(IMAGE_SIZE,IMAGE_SIZE).onlyScaleDown().centerInside().into(resizeTarget);
+        Picasso.with(this).load(imageUri).resize(IMAGE_SIZE, IMAGE_SIZE).onlyScaleDown().centerInside().into(resizeTarget);
     }
 
     private void uploadImage(Bitmap image) {
-        String imageBase64 = encodeImageToString(image);
-        String serverString = "data:image/jpeg;base64," + imageBase64;
-
-        Long millis = Calendar.getInstance().getTimeInMillis();
-        cultureCamApi.postImage(serverString, String.valueOf(millis)).enqueue(new Callback<ResponseBody>() {
+        ImageSearchService.getInstance().uploadImage(image, new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.i(TAG, "Image upload complete");
@@ -170,16 +152,11 @@ public class LoadViewActivity extends AppCompatActivity {
     private void searchImages(String imageIdentifier) {
         textView.setText("Searching for similar Images...");
         progressBar.setProgress(50);
-
-        Call<SearchResult> call = searchApi.searchImage(
-                getString(R.string.query_url) + imageIdentifier, Constants.START,
-                Constants.ROWS, Constants.WSKEY, Constants.PROFILE);
-
-        call.enqueue(new Callback<SearchResult>() {
+        ImageSearchService.getInstance().searchImages(imageIdentifier, new Callback<SearchResult>() {
             @Override
             public void onResponse(Call<SearchResult> call, Response<SearchResult> response) {
                 if (!response.isSuccessful()) {
-                    failure("Searching images failed: " + response.toString(),null);
+                    failure("Searching images failed: " + response.toString(), null);
                     return;
                 }
                 SearchResult result = response.body();
@@ -197,22 +174,11 @@ public class LoadViewActivity extends AppCompatActivity {
     }
 
     private void startLoadView(SearchResult result) {
-        Log.d(TAG,"start load view");
+        Log.d(TAG, "start load view");
         Intent intent = new Intent(this, ResultViewActivity.class);
-        intent.putExtra(RESULT,result);
-        intent.putExtra(IMAGE_ID,imageId);
+        intent.putExtra(RESULT, result);
+        intent.putExtra(IMAGE_ID, imageId);
         startActivity(intent);
-    }
-
-    private static String encodeImageToString(Bitmap imageBitmap) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        if (imageBitmap != null) {
-            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 60, stream);
-            byte[] byteArray = stream.toByteArray();
-            return Base64.encodeToString(byteArray, Base64.DEFAULT);
-        } else {
-            return null;
-        }
     }
 
     private void failure(String message, Throwable exception) {
