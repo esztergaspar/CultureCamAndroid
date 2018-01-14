@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.Headers;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,7 +24,9 @@ import retrofit2.Response;
 
 import com.culturecam.culturecam.R;
 import com.culturecam.culturecam.app.system.ImageSearchService;
-import com.culturecam.culturecam.entities.iRSearchEngine.SearchResult;
+import com.culturecam.culturecam.entities.ImageSearchResult;
+import com.culturecam.culturecam.entities.iRSearchEngine.IRSearchResult;
+import com.culturecam.culturecam.imageSearchSystem.ImageSearchCallback;
 import com.culturecam.culturecam.util.Constants;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -138,28 +141,32 @@ public class LoadViewActivity extends AppCompatActivity {
     private void searchImages(String imageIdentifier) {
         textView.setText("Searching for similar Images...");
         progressBar.setProgress(50);
-        ImageSearchService.getInstance().searchImages(imageIdentifier, new Callback<SearchResult>() {
+        ImageSearchService.getInstance().searchImages(imageIdentifier, new ImageSearchCallback() {
             @Override
-            public void onResponse(Call<SearchResult> call, Response<SearchResult> response) {
-                if (!response.isSuccessful()) {
-                    failure("Searching images failed: " + response.toString(), null);
-                    return;
-                }
-                SearchResult result = response.body();
-                Log.i(TAG, "Found " + result.getItemsCount() + " matching images");
-                textView.setText(String.format("Found %d matching images", result.getItemsCount()));
-                progressBar.setProgress(100);
-                startLoadView(result);
+            public void onFailure(Throwable t) {
+                failure("Searching images failed", t);
             }
 
             @Override
-            public void onFailure(Call<SearchResult> call, Throwable t) {
-                failure("Searching images failed", t);
+            public void onError(int code, ResponseBody body) {
+                try {
+                    failure("Searching images failed: " + body.string(), null);
+                } catch (IOException e) {
+                    Log.e(TAG, "Failed to get Body",e);
+                }
+            }
+
+            @Override
+            public void onSuccess(ImageSearchResult imageSearchResult, Headers headers) {
+                Log.i(TAG, "Found " + imageSearchResult.getImages().size() + " matching images");
+                textView.setText(String.format("Found %d matching images", imageSearchResult.getImages().size()));
+                progressBar.setProgress(100);
+                startResultView(imageSearchResult);
             }
         });
     }
 
-    private void startLoadView(SearchResult result) {
+    private void startResultView(ImageSearchResult result) {
         Log.d(TAG, "start load view");
         Intent intent = new Intent(this, ResultViewActivity.class);
         intent.putExtra(RESULT, result);

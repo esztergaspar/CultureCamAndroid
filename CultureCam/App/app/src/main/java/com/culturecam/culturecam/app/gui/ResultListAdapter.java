@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.culturecam.culturecam.R;
+import com.culturecam.culturecam.entities.SearchResultImage;
 import com.culturecam.culturecam.entities.iRSearchEngine.ResultImage;
 import com.squareup.picasso.Picasso;
 
@@ -20,11 +21,11 @@ public class ResultListAdapter extends BaseAdapter {
 
     private Context context;
     private LayoutInflater inflater;
-    private List<ResultImage> resultImageList;
+    private List<SearchResultImage> resultImageList;
     private View rowView;
     private String imageID;
 
-    public ResultListAdapter(Context context, List<ResultImage> resultImageList, String imageID) {
+    public ResultListAdapter(Context context, List<SearchResultImage> resultImageList, String imageID) {
         this.context = context;
         this.resultImageList = resultImageList;
         this.imageID = imageID;
@@ -35,7 +36,7 @@ public class ResultListAdapter extends BaseAdapter {
         return resultImageList.size();
     }
 
-    public ResultImage getItem(int position) {
+    public SearchResultImage getItem(int position) {
         return resultImageList.get(position);
     }
 
@@ -53,7 +54,7 @@ public class ResultListAdapter extends BaseAdapter {
         View details = rowView.findViewById(R.id.l_detailview);
         details.setVisibility(View.GONE);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.imageViewElement);
-        String url = ((ResultImage) getItem(position)).getCachedThmbUrl();
+        String url = getItem(position).getUrl();
         Picasso.with(context).setLoggingEnabled(true);
         Picasso.with(context).load(url)
                 //.placeholder(R.drawable.full_size_render)

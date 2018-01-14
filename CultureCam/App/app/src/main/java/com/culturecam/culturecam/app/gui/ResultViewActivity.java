@@ -10,9 +10,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.culturecam.culturecam.R;
+import com.culturecam.culturecam.entities.ImageSearchResult;
+import com.culturecam.culturecam.entities.SearchResultImage;
 import com.culturecam.culturecam.entities.culturecam.ImageDetails;
 import com.culturecam.culturecam.entities.iRSearchEngine.ResultImage;
-import com.culturecam.culturecam.entities.iRSearchEngine.SearchResult;
 import com.culturecam.culturecam.rest.CultureCamAPI;
 import com.google.gson.stream.MalformedJsonException;
 
@@ -30,7 +31,6 @@ import static com.culturecam.culturecam.app.gui.LoadViewActivity.IMAGE_ID;
 
 public class ResultViewActivity extends AppCompatActivity {
     private static final String TAG = "ResultViewActivity";
-    private SearchResult searchResult;
     private View previousItem;
     private boolean reloadDetails = true;
     private static CultureCamAPI cultureCamApi;
@@ -49,7 +49,7 @@ public class ResultViewActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        searchResult = (SearchResult) intent.getSerializableExtra(LoadViewActivity.RESULT);
+        ImageSearchResult searchResult = (ImageSearchResult) intent.getSerializableExtra(LoadViewActivity.RESULT);
         String imageId = intent.getStringExtra(IMAGE_ID);
 
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
@@ -62,7 +62,7 @@ public class ResultViewActivity extends AppCompatActivity {
                 .client(httpClient).build().create(CultureCamAPI.class);
 
         ResultListAdapter adapter = new
-                ResultListAdapter(this, searchResult.getItems(), imageId);
+                ResultListAdapter(this, searchResult.getImages(), imageId);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -73,9 +73,9 @@ public class ResultViewActivity extends AppCompatActivity {
                 if (view == null) {
                     return;
                 }
-                Log.d(TAG,"Element " + position + " clicked");
+                Log.d(TAG, "Element " + position + " clicked");
                 View layout = view.findViewById(R.id.l_detailview);
-                if(previousItem != null && previousItem != layout) {
+                if (previousItem != null && previousItem != layout) {
                     previousItem.setVisibility(View.GONE);
                     reloadDetails = true;
                 }
@@ -87,21 +87,21 @@ public class ResultViewActivity extends AppCompatActivity {
                     elementProvider.setText("");
                     elementRights.setText("");
 
-                    final ResultImage item = (ResultImage) parent.getItemAtPosition(position);
+                    final SearchResultImage item = (SearchResultImage) parent.getItemAtPosition(position);
 
                     cultureCamApi.getDetails(item.getResourceId()).enqueue(new Callback<ImageDetails>() {
                         @Override
                         public void onResponse(Call<ImageDetails> call, Response<ImageDetails> response) {
-                            if(!response.isSuccessful()) {
+                            if (!response.isSuccessful()) {
                                 Log.e(TAG, "Fetch details not successful");
                                 return;
                             }
                             ImageDetails details = response.body();
-                            if(details == null) {
+                            if (details == null) {
                                 Log.e(TAG, "Server responded with null");
                                 return;
                             }
-                            if(details.getSuccess() == null || !details.getSuccess()) {
+                            if (details.getSuccess() == null || !details.getSuccess()) {
                                 Log.e(TAG, "Server responded with no success");
                                 return;
                             }
@@ -113,7 +113,7 @@ public class ResultViewActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(Call<ImageDetails> call, Throwable t) {
-                            if(t instanceof MalformedJsonException) {
+                            if (t instanceof MalformedJsonException) {
                                 Log.w(TAG, "Got a malformed JSON from Server");
                                 elementTitle.setText("No details available");
                                 return;
@@ -124,13 +124,13 @@ public class ResultViewActivity extends AppCompatActivity {
                     });
                     reloadDetails = false;
                 }
-                if(layout.getVisibility() == View.GONE) {
+                if (layout.getVisibility() == View.GONE) {
                     layout.setVisibility(View.VISIBLE);
                 } else {
                     layout.setVisibility(View.GONE);
                 }
                 previousItem = layout;
-                listView.smoothScrollToPositionFromTop(position,0,500);
+                listView.smoothScrollToPositionFromTop(position, 0, 500);
             }
         });
     }

@@ -6,7 +6,7 @@ import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.List;
 
-public class SearchResult implements Serializable {
+public class IRSearchResult implements Serializable {
 
     @Expose
     private String apikey;

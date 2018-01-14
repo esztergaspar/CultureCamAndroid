@@ -4,8 +4,9 @@ package com.culturecam.culturecam.app.system;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.culturecam.culturecam.entities.ImageSearchResult;
 import com.culturecam.culturecam.entities.SearchEngines;
-import com.culturecam.culturecam.entities.iRSearchEngine.SearchResult;
+import com.culturecam.culturecam.imageSearchSystem.ImageSearchCallback;
 import com.culturecam.culturecam.imageSearchSystem.ImageSearchEngine;
 
 import okhttp3.ResponseBody;
@@ -30,7 +31,7 @@ public class ImageSearchService implements ImageSearchEngine {
         currentSearchEngine.getSearchEngine().uploadImage(image, callback);
     }
 
-    public synchronized void searchImages(String imageIdentifier, Callback<SearchResult> callback){
+    public synchronized void searchImages(String imageIdentifier, ImageSearchCallback callback){
         currentSearchEngine.getSearchEngine().searchImages(imageIdentifier, callback);
     }
 
