@@ -5,8 +5,7 @@ import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.culturecam.culturecam.entities.SearchEngines;
-import com.culturecam.culturecam.entities.SearchResult;
-import com.culturecam.culturecam.imageSearchSystem.IRSearchEngine;
+import com.culturecam.culturecam.entities.iRSearchEngine.SearchResult;
 import com.culturecam.culturecam.imageSearchSystem.ImageSearchEngine;
 
 import okhttp3.ResponseBody;

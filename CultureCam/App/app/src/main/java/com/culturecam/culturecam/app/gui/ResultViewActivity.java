@@ -10,9 +10,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.culturecam.culturecam.R;
-import com.culturecam.culturecam.entities.ImageDetails;
-import com.culturecam.culturecam.entities.ResultImage;
-import com.culturecam.culturecam.entities.SearchResult;
+import com.culturecam.culturecam.entities.culturecam.ImageDetails;
+import com.culturecam.culturecam.entities.iRSearchEngine.ResultImage;
+import com.culturecam.culturecam.entities.iRSearchEngine.SearchResult;
 import com.culturecam.culturecam.rest.CultureCamAPI;
 import com.google.gson.stream.MalformedJsonException;
 

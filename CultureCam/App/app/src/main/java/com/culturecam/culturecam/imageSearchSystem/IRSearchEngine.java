@@ -3,8 +3,7 @@ package com.culturecam.culturecam.imageSearchSystem;
 import android.graphics.Bitmap;
 import android.util.Base64;
 
-import com.culturecam.culturecam.R;
-import com.culturecam.culturecam.entities.SearchResult;
+import com.culturecam.culturecam.entities.iRSearchEngine.SearchResult;
 import com.culturecam.culturecam.rest.CultureCamAPI;
 import com.culturecam.culturecam.rest.ImageSimilarityAPI;
 import com.culturecam.culturecam.util.Constants;

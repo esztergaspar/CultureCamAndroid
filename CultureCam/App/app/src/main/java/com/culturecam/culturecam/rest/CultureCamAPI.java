@@ -1,7 +1,7 @@
 package com.culturecam.culturecam.rest;
 
 
-import com.culturecam.culturecam.entities.ImageDetails;
+import com.culturecam.culturecam.entities.culturecam.ImageDetails;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;

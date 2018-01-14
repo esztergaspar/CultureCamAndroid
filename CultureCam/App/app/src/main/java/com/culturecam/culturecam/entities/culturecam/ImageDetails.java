@@ -1,5 +1,5 @@
 
-package com.culturecam.culturecam.entities;
+package com.culturecam.culturecam.entities.culturecam;
 
 import java.io.Serializable;
 

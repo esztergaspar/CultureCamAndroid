@@ -1,18 +1,13 @@
 package com.culturecam.culturecam.app.gui;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,28 +16,19 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import com.culturecam.culturecam.R;
 import com.culturecam.culturecam.app.system.ImageSearchService;
-import com.culturecam.culturecam.entities.SearchResult;
-import com.culturecam.culturecam.rest.CultureCamAPI;
-import com.culturecam.culturecam.rest.ImageSimilarityAPI;
+import com.culturecam.culturecam.entities.iRSearchEngine.SearchResult;
 import com.culturecam.culturecam.util.Constants;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.util.Calendar;
 
 
 import static com.culturecam.culturecam.app.gui.activity_chooseimage.IMAGE_URI;

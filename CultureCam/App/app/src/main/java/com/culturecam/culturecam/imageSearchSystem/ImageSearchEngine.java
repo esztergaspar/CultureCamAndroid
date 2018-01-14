@@ -2,7 +2,7 @@ package com.culturecam.culturecam.imageSearchSystem;
 
 import android.graphics.Bitmap;
 
-import com.culturecam.culturecam.entities.SearchResult;
+import com.culturecam.culturecam.entities.iRSearchEngine.SearchResult;
 
 import okhttp3.ResponseBody;
 import retrofit2.Callback;

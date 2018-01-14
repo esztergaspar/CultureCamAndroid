@@ -1,6 +1,6 @@
 package com.culturecam.culturecam.rest;
 
-import com.culturecam.culturecam.entities.SearchResult;
+import com.culturecam.culturecam.entities.iRSearchEngine.SearchResult;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

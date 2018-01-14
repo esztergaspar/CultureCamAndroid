@@ -1,4 +1,4 @@
-package com.culturecam.culturecam.entities;
+package com.culturecam.culturecam.entities.iRSearchEngine;
 
 
 import com.google.gson.annotations.Expose;
