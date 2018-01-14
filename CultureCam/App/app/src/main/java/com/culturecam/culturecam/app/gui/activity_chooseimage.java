@@ -58,10 +58,6 @@ public class activity_chooseimage extends AppCompatActivity {
         setContentView(R.layout.activity_chooseimage);
         ButterKnife.bind(this);
         mediaButton.setEnabled(true);
-
-        //ueber den Kontext der App kann man auf die Ressourcen zugreifen
-        ImageDeliveryController.getInstance().setContext(this);
-        ImageSearchService.getInstance().setContext(this);
     }
 
     public void onClickedMediaLibraryButton(View view){
