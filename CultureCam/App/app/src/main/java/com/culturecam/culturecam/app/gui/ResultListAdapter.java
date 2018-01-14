@@ -54,7 +54,7 @@ public class ResultListAdapter extends BaseAdapter {
         View details = rowView.findViewById(R.id.l_detailview);
         details.setVisibility(View.GONE);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.imageViewElement);
-        String url = getItem(position).getUrl();
+        final String url = getItem(position).getUrl();
         Picasso.with(context).setLoggingEnabled(true);
         Picasso.with(context).load(url)
                 //.placeholder(R.drawable.full_size_render)
@@ -69,9 +69,10 @@ public class ResultListAdapter extends BaseAdapter {
                 Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("text/plain");
                 // i.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
-                i.putExtra(Intent.EXTRA_TEXT,
+                /*i.putExtra(Intent.EXTRA_TEXT,
                         "http://www.culturecam.eu"
-                                + "/?shared=" + imageID.split("\\.")[0]);
+                                + "/?shared=" + imageID.split("\\.")[0]);*/
+                i.putExtra(Intent.EXTRA_TEXT,url);
                 context.startActivity(Intent.createChooser(i, "Share Search"));
             }
         });
