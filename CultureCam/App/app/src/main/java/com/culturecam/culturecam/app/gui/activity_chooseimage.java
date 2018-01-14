@@ -53,7 +53,7 @@ public class activity_chooseimage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.v(TAG, "Activity onCreate");
+        Log.v(TAG, "activity onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chooseimage);
         ButterKnife.bind(this);
