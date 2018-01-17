@@ -1,17 +1,16 @@
 package com.culturecam.culturecam.app.gui;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.culturecam.culturecam.R;
-import com.culturecam.culturecam.app.system.ImageSearchService;
 import com.culturecam.culturecam.entities.SearchEngines;
+import com.culturecam.culturecam.imageSearchSystem.ImageSearchService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

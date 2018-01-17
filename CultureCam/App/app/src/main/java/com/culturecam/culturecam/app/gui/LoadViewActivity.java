@@ -5,14 +5,24 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.culturecam.culturecam.R;
+import com.culturecam.culturecam.entities.ImageSearchResult;
+import com.culturecam.culturecam.imageSearchSystem.ImageSearchCallback;
+import com.culturecam.culturecam.imageSearchSystem.ImageSearchService;
+import com.culturecam.culturecam.util.Constants;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,18 +31,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import com.culturecam.culturecam.R;
-import com.culturecam.culturecam.app.system.ImageSearchService;
-import com.culturecam.culturecam.entities.ImageSearchResult;
-import com.culturecam.culturecam.entities.iRSearchEngine.IRSearchResult;
-import com.culturecam.culturecam.imageSearchSystem.ImageSearchCallback;
-import com.culturecam.culturecam.util.Constants;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
-
-import java.io.IOException;
-
 
 import static com.culturecam.culturecam.app.gui.activity_chooseimage.IMAGE_URI;
 import static com.culturecam.culturecam.util.Constants.IMAGE_SIZE;

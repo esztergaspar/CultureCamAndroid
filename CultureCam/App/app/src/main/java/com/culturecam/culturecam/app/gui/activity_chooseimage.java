@@ -5,6 +5,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
@@ -12,15 +13,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import com.culturecam.culturecam.R;
-import com.culturecam.culturecam.app.system.ImageDeliveryController;
-import com.culturecam.culturecam.app.system.ImageSearchService;
-
-import android.util.Log;
-import android.widget.Button;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,8 +37,6 @@ import butterknife.ButterKnife;
 public class activity_chooseimage extends AppCompatActivity {
 
     private static final String TAG = "activity_chooseimage";
-    private ImageDeliveryController imageDeliveryController;
-    private ImageSearchService imageSearchService;
     private Uri photoURI;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_SELECT_IMAGE = 2;

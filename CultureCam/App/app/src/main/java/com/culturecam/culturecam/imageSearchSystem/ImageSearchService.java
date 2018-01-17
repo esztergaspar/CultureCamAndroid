@@ -1,13 +1,10 @@
-package com.culturecam.culturecam.app.system;
+package com.culturecam.culturecam.imageSearchSystem;
 
 
 import android.graphics.Bitmap;
 import android.util.Log;
 
-import com.culturecam.culturecam.entities.ImageSearchResult;
 import com.culturecam.culturecam.entities.SearchEngines;
-import com.culturecam.culturecam.imageSearchSystem.ImageSearchCallback;
-import com.culturecam.culturecam.imageSearchSystem.ImageSearchEngine;
 
 import okhttp3.ResponseBody;
 import retrofit2.Callback;
