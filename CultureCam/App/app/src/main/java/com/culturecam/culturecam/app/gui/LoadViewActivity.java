@@ -45,7 +45,6 @@ public class LoadViewActivity extends AppCompatActivity {
     public static final String IMAGE_ID = "image_id";
 
     private static Target resizeTarget;
-    private static String imageId;
 
     @BindView(R.id.iv_loadpreview)
     public ImageView imageView;
@@ -121,9 +120,7 @@ public class LoadViewActivity extends AppCompatActivity {
                 try {
                     String imageIdentifier = response.body().string();
                     Log.d(TAG, "Image Identifier: " + imageIdentifier);
-                    imageId = imageIdentifier;
                     searchImages(imageIdentifier);
-
                 } catch (IOException e) {
                     failure("Error getting response body", e);
                 }
@@ -168,7 +165,6 @@ public class LoadViewActivity extends AppCompatActivity {
         Log.d(TAG, "start load view");
         Intent intent = new Intent(this, ResultViewActivity.class);
         intent.putExtra(RESULT, result);
-        intent.putExtra(IMAGE_ID, imageId);
         startActivity(intent);
     }
 

@@ -4,17 +4,19 @@ import java.io.Serializable;
 import java.util.List;
 
 public class ImageSearchResult implements Serializable {
-    private List<SearchResultImage> images;
+    private final List<SearchResultImage> images;
+    private final String imageIdentifier;
 
-    public ImageSearchResult(List<SearchResultImage> images) {
+    public ImageSearchResult(List<SearchResultImage> images, String imageIdentifier) {
         this.images = images;
+        this.imageIdentifier = imageIdentifier;
     }
 
     public List<SearchResultImage> getImages() {
         return images;
     }
 
-    public void setImages(List<SearchResultImage> images) {
-        this.images = images;
+    public String getImageIdentifier() {
+        return imageIdentifier;
     }
 }

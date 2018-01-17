@@ -7,7 +7,7 @@
     android:minHeight="250dp"
     android:orientation="vertical">
 
-    <android.support.constraint.ConstraintLayout
+    <ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -25,7 +25,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-    </android.support.constraint.ConstraintLayout>
+    </ConstraintLayout>
 
     <ImageView
         android:id="@+id/imageViewElement"
@@ -138,12 +138,15 @@
             android:gravity="end"
             android:orientation="horizontal">
 
-            <Button
+            <android.support.design.widget.FloatingActionButton
                 android:id="@+id/b_shareLink"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:focusable="false"
-                android:text="@string/shareLinkButton" />
+                android:layout_weight="1"
+                android:clickable="true"
+                app:backgroundTint="@color/colorLightAccent"
+                app:srcCompat="?attr/actionModeShareDrawable" />
+
         </LinearLayout>
 
     </LinearLayout>

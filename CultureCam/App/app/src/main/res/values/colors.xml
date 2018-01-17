@@ -4,7 +4,7 @@
     <color name="colorLightAccent">#738079</color>
     <color name="colorMainBrand">#867f7e</color>
     <color name="colorDarkAccent">#915F73</color>
-    <color name="colorDarkShades">#181B23</color>
+    <color name="colorDarkShades">#181b23</color>
 
     <!--   your app branding color for the app bar -->
     <color name="colorPrimary">@color/colorMainBrand</color>

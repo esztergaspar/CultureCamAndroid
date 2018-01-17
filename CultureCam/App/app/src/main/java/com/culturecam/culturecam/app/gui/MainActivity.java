@@ -2,9 +2,11 @@ package com.culturecam.culturecam.app.gui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
@@ -19,8 +21,14 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
+    @BindView(R.id.menuOverlay)
+    public ConstraintLayout menuOverlay;
+
     @BindView(R.id.engineSwitch)
     public Switch engineSwitch;
+
+    @BindView(R.id.b_openMenu)
+    public Button b_openMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +37,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         ImageSearchService.getInstance().setCurrentSearchEngine(SearchEngines.IR_SEARCH_ENGINE);
+        menuOverlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                menuOverlay.setVisibility((menuOverlay.getVisibility() == View.GONE ? View.VISIBLE : View.GONE));
+            }
+        });
         engineSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {

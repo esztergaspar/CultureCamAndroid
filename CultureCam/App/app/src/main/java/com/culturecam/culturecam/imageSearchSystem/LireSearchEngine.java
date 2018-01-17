@@ -48,7 +48,7 @@ public class LireSearchEngine implements ImageSearchEngine {
     }
 
     @Override
-    public void searchImages(String imageIdentifier, final ImageSearchCallback callback) {
+    public void searchImages(final String imageIdentifier, final ImageSearchCallback callback) {
         Callback<LireSearchResult> lireCallback = new Callback<LireSearchResult>() {
 
             @Override
@@ -61,7 +61,7 @@ public class LireSearchEngine implements ImageSearchEngine {
                 for (com.culturecam.culturecam.entities.lireSearchEngine.Response r : response.body().getResponse()) {
                     images.add(new LireSearchEngine.ImageConverter(r));
                 }
-                ImageSearchResult result = new ImageSearchResult(images);
+                ImageSearchResult result = new ImageSearchResult(images, imageIdentifier);
                 callback.onSuccess(result, response.headers());
             }
 

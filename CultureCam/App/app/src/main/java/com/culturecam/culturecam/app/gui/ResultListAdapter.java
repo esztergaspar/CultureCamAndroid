@@ -11,7 +11,6 @@ import android.widget.ImageView;
 
 import com.culturecam.culturecam.R;
 import com.culturecam.culturecam.entities.SearchResultImage;
-import com.culturecam.culturecam.entities.iRSearchEngine.ResultImage;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -23,12 +22,10 @@ public class ResultListAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private List<SearchResultImage> resultImageList;
     private View rowView;
-    private String imageID;
 
-    public ResultListAdapter(Context context, List<SearchResultImage> resultImageList, String imageID) {
+    public ResultListAdapter(Context context, List<SearchResultImage> resultImageList) {
         this.context = context;
         this.resultImageList = resultImageList;
-        this.imageID = imageID;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 

@@ -55,7 +55,7 @@ public class IRSearchEngine implements ImageSearchEngine {
     }
 
     @Override
-    public void searchImages(String imageIdentifier, final ImageSearchCallback callback) {
+    public void searchImages(final String imageIdentifier, final ImageSearchCallback callback) {
         Callback<IRSearchResult> irCallback = new Callback<IRSearchResult>() {
 
             @Override
@@ -68,7 +68,7 @@ public class IRSearchEngine implements ImageSearchEngine {
                 for (ResultImage image : response.body().getItems()) {
                     images.add(new ImageConverter(image));
                 }
-                ImageSearchResult result = new ImageSearchResult(images);
+                ImageSearchResult result = new ImageSearchResult(images, imageIdentifier);
                 callback.onSuccess(result, response.headers());
             }
 

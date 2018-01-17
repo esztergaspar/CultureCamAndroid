@@ -2,6 +2,7 @@ package com.culturecam.culturecam.app.gui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +14,6 @@ import com.culturecam.culturecam.R;
 import com.culturecam.culturecam.entities.ImageSearchResult;
 import com.culturecam.culturecam.entities.SearchResultImage;
 import com.culturecam.culturecam.entities.culturecam.ImageDetails;
-import com.culturecam.culturecam.entities.iRSearchEngine.ResultImage;
 import com.culturecam.culturecam.rest.CultureCamAPI;
 import com.google.gson.stream.MalformedJsonException;
 
@@ -27,8 +27,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.culturecam.culturecam.app.gui.LoadViewActivity.IMAGE_ID;
-
 public class ResultViewActivity extends AppCompatActivity {
     private static final String TAG = "ResultViewActivity";
     private View previousItem;
@@ -37,6 +35,9 @@ public class ResultViewActivity extends AppCompatActivity {
 
     @BindView(R.id.listView)
     public ListView listView;
+
+    @BindView(R.id.shareButton)
+    public FloatingActionButton shareButton;
 
     private TextView elementTitle;
     private TextView elementProvider;
@@ -49,8 +50,7 @@ public class ResultViewActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        ImageSearchResult searchResult = (ImageSearchResult) intent.getSerializableExtra(LoadViewActivity.RESULT);
-        String imageId = intent.getStringExtra(IMAGE_ID);
+        final ImageSearchResult searchResult = (ImageSearchResult) intent.getSerializableExtra(LoadViewActivity.RESULT);
 
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -60,9 +60,21 @@ public class ResultViewActivity extends AppCompatActivity {
         cultureCamApi = new Retrofit.Builder().baseUrl("http://www.culturecam.eu")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient).build().create(CultureCamAPI.class);
+        shareButton.setVisibility(searchResult == null ? View.GONE : View.VISIBLE);
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(Intent.EXTRA_TEXT,
+                        "http://www.culturecam.eu"
+                                + "/?shared=" + searchResult.getImageIdentifier().split("\\.")[0]);
+                startActivity(Intent.createChooser(i, "Share Search"));
+            }
+        });
 
         ResultListAdapter adapter = new
-                ResultListAdapter(this, searchResult.getImages(), imageId);
+                ResultListAdapter(this, searchResult.getImages());
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
