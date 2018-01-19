@@ -2,6 +2,7 @@ package com.culturecam.culturecam.app.gui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +60,7 @@ public class ResultListAdapter extends BaseAdapter {
                 .centerInside()
                 .into(imageView);
 
-        Button linkButton = (Button) rowView.findViewById(R.id.b_shareLink);
+        FloatingActionButton linkButton = (FloatingActionButton) rowView.findViewById(R.id.b_shareLink);
         linkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

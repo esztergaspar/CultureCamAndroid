@@ -7,7 +7,7 @@
     android:minHeight="250dp"
     android:orientation="vertical">
 
-    <ConstraintLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -25,7 +25,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-    </ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
 
     <ImageView
         android:id="@+id/imageViewElement"
