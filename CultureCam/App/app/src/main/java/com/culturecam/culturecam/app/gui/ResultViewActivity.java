@@ -60,7 +60,7 @@ public class ResultViewActivity extends AppCompatActivity {
         cultureCamApi = new Retrofit.Builder().baseUrl("http://www.culturecam.eu")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient).build().create(CultureCamAPI.class);
-        shareButton.setVisibility(searchResult == null ? View.GONE : View.VISIBLE);
+        shareButton.setVisibility(searchResult.getImageIdentifier() == null ? View.GONE : View.VISIBLE);
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
