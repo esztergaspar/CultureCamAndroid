@@ -15,7 +15,6 @@ gen/
 out/
 
 # Gradle files
-.gradle/
 build/
 
 # Local configuration file (sdk path, etc)
@@ -40,6 +39,7 @@ captures/
 .idea/gradle.xml
 .idea/dictionaries
 .idea/libraries
+CultureCam/App/.idea/
 
 # Keystore files
 *.jks
@@ -54,10 +54,5 @@ google-services.json
 freeline.py
 freeline/
 freeline_project_description.json
-CultureCam/App/app/src/main/res/drawable/FullSizeRender.jpg.modd
-CultureCam/App/.idea/misc.xml
-CultureCam/App/app/src/main/res/drawable/full_size_render.jpg.modd
-CultureCam/App/build.gradle
-CultureCam/App/.idea/misc.xml
-CultureCam/App/app/build.gradle
-CultureCam/App/build.gradle
+
+

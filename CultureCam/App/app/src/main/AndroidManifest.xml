@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.culturecam.culturecam">
+    <uses-permission android:name="android.permission.INTERNET"> </uses-permission>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:required="false"/>
+
 
     <application
         android:allowBackup="true"
@@ -9,15 +15,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-        <activity android:name="com.culturecam.culturecam.app.gui.MainActivity">
+        <activity android:name=".app.gui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.culturecam.culturecam.app.gui.LoadViewActivity" />
-        <activity android:name="com.culturecam.culturecam.app.gui.ResultViewActivity"></activity>
+        <activity
+            android:name=".app.gui.LoadViewActivity"
+            android:noHistory="true" />
+        <!-- android:noHistory="true": damit die LoadViewActivity nicht in den Back Stack kommt -->
+
+        <activity android:name=".app.gui.ResultViewActivity" />
+        <activity
+            android:name=".app.gui.activity_chooseimage" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.cluturecam.culturecam.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
     </application>
 
 </manifest>
